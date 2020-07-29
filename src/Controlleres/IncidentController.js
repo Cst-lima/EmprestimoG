@@ -9,8 +9,8 @@ module.exports = {
 
         const incidents = await connection('incidents')
             .join('ongs', 'ongs.id', '=', 'incidents.ongs_id')
-            .limit(5)
-            .offset((page - 1) * 5)
+            //.limit(5)
+            .offset((page - 1)*5)
             .select(['incidents.*', 'ongs.setor_origem', 'ongs.email', 'ongs.ramal'])
 
             response.header('X-Total-Count', count['count(*)']);
@@ -20,13 +20,12 @@ module.exports = {
 
 
     async create(request, response){
-        const { data_emprestimo, setor_origem, setor_destino, observation, qtd_horas } = request.body;
+        const { data_emprestimo, setor_destino, qtd_horas, observation } = request.body;
         
         const ongs_id = request.headers.authorization;
 
        const [ id ] = await connection('incidents').insert({
             data_emprestimo,
-            setor_origem,
             setor_destino,
             qtd_horas,
             observation,
@@ -36,22 +35,20 @@ module.exports = {
          return response.json({ id });
      },
 
-     
-async delete(request, response) {
-    const { id } = request.params;
-    const ongs_id = request.headers.authorization;
+     async delete(request, response) {
+         const { id } = request.params;
+         const ongs_id = request.headers.authorization;
 
-    const incident = await connection('incidents')
-    .where('id', id)
-    .select('ongs_id')
-    .first();
+         const incident = await connection('incidents')
+         .where('id', id)
+         .select('ongs_id')
+         .first();
 
-    if (incident.ongs_id != ongs_id) {
-        return response.status(401).json({ error:'Operation not permitted.' });
-        }
-        await connection('incidents').where('id', id).delete();
+         if (incident.ongs_id != ongs_id) {
+             return response.status(401).json({ error:'Operation not permitted.' });
+             }
+             await connection('incidents').where('id', id).delete();
 
-        return response.status(204).send();
-    }
-     
+             return response.status(204).send();
+         }
      };

@@ -13,7 +13,8 @@ routes.post('/ongs', celebrate({
     [Segments.BODY]: Joi.object().keys({
         setor_origem: Joi.string().required(),
         email: Joi.string().required().email(),
-        ramal: Joi.string().required().min(10).max(13),        
+        ramal: Joi.string().required().min(10).max(13),
+        
     })
 }),OngController.create);
 
@@ -34,22 +35,19 @@ routes.get('/incidents', celebrate({
 }),IncidentController.index);
 
 routes.post('/incidents', celebrate({
-     [Segments.HEADERS]: Joi.object({
-            authorization: Joi.string().required(),                
-        }).unknown(),
-        
     [Segments.BODY]: Joi.object().keys({
+        data_emprestimo: Joi.string().required(),
         setor_origem: Joi.string().required(),
         setor_destino: Joi.string().required(),
         qtd_horas: Joi.number().required(),
-        data_emprestimo: Joi.string().required(),
-        observation: Joi.string(),        
+        observation: Joi.string(),
+        
     })
-}),IncidentController.create);
+}), IncidentController.create);
 
 routes.delete('/incidents/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
-        id: Joi.number().required(),
+        id: Joi.string().required(),
     })
 }),IncidentController.delete);
 

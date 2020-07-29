@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async create(request, response) {
-        const { setor_origem, email, ramal } = request.body;
+        const { setor_origem, email, ramal} = request.body;
 
         const id = setor_origem;
         
@@ -21,7 +21,7 @@ module.exports = {
            setor_origem,
            email,
            ramal,
-           
+          
        })       
         return response.json({ id });
     }

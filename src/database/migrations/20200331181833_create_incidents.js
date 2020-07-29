@@ -3,8 +3,7 @@ exports.up = function(knex) {
     return knex.schema.createTable('incidents', function(table){
         table.increments();
         table.string('data_emprestimo').notNullable();
-        table.string('setor_origem').notNullable();
-        table.string('setor_destino').notNullable();        
+        table.string('setor_destino').notNullable();
         table.decimal('qtd_horas').notNullable();
         table.string('observation').notNullable();
 
@@ -15,5 +14,5 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
     return knex.schema.dropTable('incidents');
-
+  
 };
